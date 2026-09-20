@@ -87,8 +87,8 @@ export default function CanvasEditor({ canvas, onUpdate, selectedId, onSelectEle
     <div className="flex flex-col gap-4 h-full" onKeyDown={handleKeyDown} tabIndex={0} role="application" aria-label="Design canvas editor">
       <ElementToolbar onAdd={handleAddElement} onDelete={handleDeleteSelected} canDelete={Boolean(selectedId)} />
       <div className="flex gap-4 flex-1 min-h-0">
-        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-50 rounded-lg border border-slate-200 overflow-hidden">
-          <div className="bg-white rounded-lg shadow-sm" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
+        <div className="relative flex-1 overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_20%_10%,rgba(252,211,77,0.08),transparent_28%),linear-gradient(135deg,#151922,#0f1218)] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.24)]">
+          <div className="relative overflow-hidden rounded-xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.28)] ring-1 ring-black/10" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
             <Stage ref={stageRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} onClick={handleStageClick} style={{ cursor: selectedId ? 'default' : 'pointer' }}>
               <Layer>
                 {canvas.elements.map((element) => {

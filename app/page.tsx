@@ -81,26 +81,27 @@ export default function Page() {
   })
 
   return (
-    <main className="min-h-screen bg-[#f5f1ea] text-slate-900">
+    <main className="min-h-screen bg-[#0b0d12] text-slate-100 selection:bg-amber-400/30">
       <CanvasHeader canvas={canvas} saving={saving} snapshot={snapshot} onNew={handleNew} onSave={handleSave} onLoad={() => setLoadOpen(true)} onDelete={handleDeleteCurrent} onNameChange={(name) => commit({ ...canvas, name })} />
-      <div className="mx-auto max-w-[1500px] px-6 py-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="mx-auto max-w-[1600px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Mini design editor</p>
-            <p className="text-sm text-slate-600 mt-1">Create, transform, and persist structured canvas data.</p>
+            <div className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-amber-300/80"><span className="size-1.5 rounded-full bg-amber-300 shadow-[0_0_12px_rgba(252,211,77,0.9)]" /> Studio workspace</div>
+            <h2 className="text-2xl font-semibold tracking-tight text-white">Shape your next idea.</h2>
+            <p className="mt-1 text-sm text-slate-400">A focused canvas for fast visual thinking.</p>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={undo} disabled={!past.length} title="Undo (Ctrl/Cmd + Z)"><Undo2 className="size-4" /></Button>
-            <Button variant="outline" size="sm" onClick={redo} disabled={!future.length} title="Redo (Ctrl/Cmd + Shift + Z)"><Redo2 className="size-4" /></Button>
-            <Button variant="outline" size="sm" onClick={() => setShowLayers((value) => !value)} className="gap-2"><Layers className="size-4" /> Layers</Button>
+          <div className="flex items-center gap-2 self-start rounded-xl border border-white/10 bg-white/[0.03] p-1 sm:self-auto">
+            <Button variant="ghost" size="sm" onClick={undo} disabled={!past.length} title="Undo (Ctrl/Cmd + Z)" className="text-slate-400 hover:bg-white/10 hover:text-white"><Undo2 className="size-4" /></Button>
+            <Button variant="ghost" size="sm" onClick={redo} disabled={!future.length} title="Redo (Ctrl/Cmd + Shift + Z)" className="text-slate-400 hover:bg-white/10 hover:text-white"><Redo2 className="size-4" /></Button>
+            <Button variant="ghost" size="sm" onClick={() => setShowLayers((value) => !value)} className="gap-2 text-slate-300 hover:bg-white/10 hover:text-white"><Layers className="size-4" /> Layers</Button>
           </div>
         </div>
-        {error && <div className="mb-4 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"><AlertCircle className="size-4" /> {error}</div>}
+        {error && <div className="mb-4 flex items-center gap-2 rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-200"><AlertCircle className="size-4" /> {error}</div>}
         <div className="flex gap-4">
           <div className="flex-1 min-w-0"><CanvasEditor canvas={canvas} onUpdate={commit} selectedId={selectedId} onSelectElement={setSelectedId} /></div>
-          {showLayers && <aside className="w-60 rounded-lg border border-slate-200 bg-white p-4 h-fit"><h2 className="text-sm font-semibold mb-3">Layers</h2><div className="flex flex-col gap-2">{canvas.elements.length === 0 ? <p className="text-xs text-slate-500">No elements yet.</p> : [...canvas.elements].reverse().map((element) => <div key={element.id} className={`flex items-center justify-between rounded border px-2 py-2 text-xs ${element.id === selectedId ? 'border-[#c9754d] bg-orange-50' : 'border-slate-200'}`}><button className="truncate text-left" onClick={() => setSelectedId(element.id)}>{element.type === 'text' ? element.text : element.type}</button><div className="flex gap-1"><button onClick={() => commit({ ...canvas, elements: moveElement(canvas.elements, element.id, 'front') })} aria-label="Bring layer to front">↑</button><button onClick={() => commit({ ...canvas, elements: moveElement(canvas.elements, element.id, 'back') })} aria-label="Send layer to back">↓</button></div></div>)}</div></aside>}
+          {showLayers && <aside className="w-60 h-fit rounded-2xl border border-white/10 bg-[#141820] p-4 text-slate-100 shadow-[0_16px_40px_rgba(0,0,0,0.16)]"><h2 className="mb-3 text-sm font-semibold text-white">Layers</h2><div className="flex flex-col gap-2">{canvas.elements.length === 0 ? <p className="text-xs text-slate-500">No elements yet.</p> : [...canvas.elements].reverse().map((element) => <div key={element.id} className={`flex items-center justify-between rounded border px-2 py-2 text-xs ${element.id === selectedId ? 'border-amber-300/50 bg-amber-300/10' : 'border-white/10 bg-white/[0.02]'}`}><button className="truncate text-left" onClick={() => setSelectedId(element.id)}>{element.type === 'text' ? element.text : element.type}</button><div className="flex gap-1"><button onClick={() => commit({ ...canvas, elements: moveElement(canvas.elements, element.id, 'front') })} aria-label="Bring layer to front">↑</button><button onClick={() => commit({ ...canvas, elements: moveElement(canvas.elements, element.id, 'back') })} aria-label="Send layer to back">↓</button></div></div>)}</div></aside>}
         </div>
-        <div className="mt-4 flex items-center justify-between text-xs text-slate-500"><span>{canvas.elements.length} {canvas.elements.length === 1 ? 'element' : 'elements'} · Express API + MongoDB persistence</span><span>Double-click text to edit · Delete removes selection</span></div>
+        <div className="mt-4 flex items-center justify-between text-[11px] tracking-wide text-slate-500"><span>{canvas.elements.length} {canvas.elements.length === 1 ? 'element' : 'elements'} · Express API + MongoDB persistence</span><span>Double-click text to edit · Delete removes selection</span></div>
       </div>
       <LoadDialog isOpen={loadOpen} onClose={() => setLoadOpen(false)} onLoad={handleLoad} onDelete={handleDeleteById} />
     </main>
