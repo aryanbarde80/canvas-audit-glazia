@@ -60,3 +60,8 @@
 }
 
 html, body { min-height: 100%; }
+
+.canvas-stage-shell { scrollbar-color: rgba(255,255,255,.24) transparent; scrollbar-width: thin; }
+.canvas-stage-shell::-webkit-scrollbar { width: 8px; height: 8px; }
+.canvas-stage-shell::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 999px; }
+.canvas-artboard { background-image: linear-gradient(45deg, rgba(15,23,42,.025) 25%, transparent 25%, transparent 75%, rgba(15,23,42,.025) 75%), linear-gradient(45deg, rgba(15,23,42,.025) 25%, transparent 25%, transparent 75%, rgba(15,23,42,.025) 75%); background-position: 0 0, 10px 10px; background-size: 20px 20px; }
