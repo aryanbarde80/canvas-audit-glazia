@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback, useEffect } from 'react'
 import { Stage, Layer, Rect, Circle, Text, Transformer } from 'react-konva'
 import Konva from 'konva'
 import { CanvasElement, CanvasDocument, CANVAS_WIDTH, CANVAS_HEIGHT, removeElement, updateElement, getElement, normalizeTransform, renderElement, isText } from '@/lib/canvas-types'
@@ -12,6 +12,15 @@ export default function CanvasEditor({ canvas, onUpdate, selectedId, onSelectEle
   const stageRef = useRef<Konva.Stage | null>(null)
   const transformerRef = useRef<Konva.Transformer | null>(null)
   const selectedRef = useRef<Konva.Node | null>(null)
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!transformerRef.current) return
+    const node = selectedId && stageRef.current?.findOne(`#${selectedId}`)
+    transformerRef.current.nodes(node ? [node] : [])
+    transformerRef.current.getLayer()?.batchDraw()
+    selectedRef.current = node ?? null
+  }, [selectedId, canvas.elements])
 
   const handleAddElement = (type: 'rectangle' | 'circle' | 'text') => {
     const newElement = renderElement({ id: `${type}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, type, x: 80 + canvas.elements.length * 18, y: 80 + canvas.elements.length * 18, width: type === 'circle' ? 120 : type === 'text' ? 260 : 220, height: type === 'circle' ? 120 : type === 'text' ? 48 : 130, rotation: 0, fill: type === 'text' ? '#172033' : type === 'circle' ? '#e7a77b' : '#8ea8c3', ...(type === 'text' && { text: 'Double click to edit', fontSize: 24 }) })
@@ -84,16 +93,17 @@ export default function CanvasEditor({ canvas, onUpdate, selectedId, onSelectEle
   }
 
   return (
-    <div className="flex flex-col gap-4 h-full" onKeyDown={handleKeyDown} tabIndex={0} role="application" aria-label="Design canvas editor">
+    <div className="flex h-full flex-col gap-4" onKeyDown={handleKeyDown} tabIndex={0} role="application" aria-label="Design canvas editor">
       <ElementToolbar onAdd={handleAddElement} onDelete={handleDeleteSelected} canDelete={Boolean(selectedId)} />
-      <div className="flex gap-4 flex-1 min-h-0">
-        <div className="relative flex-1 overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_20%_10%,rgba(252,211,77,0.08),transparent_28%),linear-gradient(135deg,#151922,#0f1218)] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.24)]">
-          <div className="relative overflow-hidden rounded-xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.28)] ring-1 ring-black/10" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
+      <div className="flex min-h-0 flex-1 gap-4">
+        <div className="canvas-stage-shell relative flex-1 overflow-auto rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_20%_10%,rgba(252,211,77,0.12),transparent_28%),linear-gradient(135deg,#151922,#0f1218)] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.24)]">
+          <div className="pointer-events-none absolute inset-x-5 top-4 z-10 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.22em] text-white/40"><span>Artboard</span><span>{selectedId ? 'Element selected' : 'Click an element to select'}</span></div>
+          <div className="canvas-artboard relative mt-5 overflow-hidden rounded-xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.28)] ring-1 ring-white/20" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
             <Stage ref={stageRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} onClick={handleStageClick} style={{ cursor: selectedId ? 'default' : 'pointer' }}>
               <Layer>
                 {canvas.elements.map((element) => {
                   const isSelected = element.id === selectedId
-                  const commonProps = { id: element.id, x: element.x, y: element.y, rotation: element.rotation, fill: element.fill, draggable: true, onDragEnd: (e: any) => handleDragEnd(element.id, e), onClick: () => handleSelectElement(element.id), stroke: isSelected ? '#c9754d' : undefined, strokeWidth: isSelected ? 2 : 0 }
+                  const commonProps = { id: element.id, x: element.x, y: element.y, rotation: element.rotation, fill: element.fill, draggable: true, onMouseEnter: () => setHoveredId(element.id), onMouseLeave: () => setHoveredId(null), onDragEnd: (e: any) => handleDragEnd(element.id, e), onClick: () => handleSelectElement(element.id), stroke: isSelected ? '#c9754d' : hoveredId === element.id ? '#f3c7a5' : undefined, strokeWidth: isSelected ? 3 : hoveredId === element.id ? 2 : 0, shadowColor: isSelected ? '#c9754d' : undefined, shadowBlur: isSelected ? 16 : 0, shadowOpacity: isSelected ? 0.3 : 0 }
                   if (element.type === 'rectangle') return <Rect key={element.id} {...commonProps} width={element.width} height={element.height} />
                   if (element.type === 'circle') return <Circle key={element.id} {...commonProps} radius={(element.width ?? 60) / 2} />
                   if (element.type === 'text') return <Text key={element.id} {...commonProps} text={element.text} fontSize={element.fontSize ?? 24} width={element.width} height={element.height} onDblClick={() => handleTextDblClick(element.id)} />

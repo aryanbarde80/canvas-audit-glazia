@@ -17,6 +17,7 @@ export default function Page() {
   const [past, setPast] = useState<HistoryState[]>([])
   const [future, setFuture] = useState<HistoryState[]>([])
   const [showLayers, setShowLayers] = useState(false)
+  const [showShortcuts, setShowShortcuts] = useState(false)
 
   const commit = useCallback((next: CanvasDocument, track = true) => {
     if (track) setPast((items) => [...items.slice(-49), historyState(canvas)])
@@ -94,9 +95,11 @@ export default function Page() {
             <Button variant="ghost" size="sm" onClick={undo} disabled={!past.length} title="Undo (Ctrl/Cmd + Z)" className="text-slate-400 hover:bg-white/10 hover:text-white"><Undo2 className="size-4" /></Button>
             <Button variant="ghost" size="sm" onClick={redo} disabled={!future.length} title="Redo (Ctrl/Cmd + Shift + Z)" className="text-slate-400 hover:bg-white/10 hover:text-white"><Redo2 className="size-4" /></Button>
             <Button variant="ghost" size="sm" onClick={() => setShowLayers((value) => !value)} className="gap-2 text-slate-300 hover:bg-white/10 hover:text-white"><Layers className="size-4" /> Layers</Button>
+            <Button variant="ghost" size="sm" onClick={() => setShowShortcuts((value) => !value)} className="hidden text-slate-400 hover:bg-white/10 hover:text-white sm:inline-flex">{showShortcuts ? 'Hide tips' : 'Tips'}</Button>
           </div>
         </div>
         {error && <div className="mb-4 flex items-center gap-2 rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-200"><AlertCircle className="size-4" /> {error}</div>}
+        {showShortcuts && <div className="mb-4 grid grid-cols-1 gap-2 rounded-xl border border-amber-300/15 bg-amber-300/[0.06] px-4 py-3 text-xs text-slate-300 sm:grid-cols-3"><span><strong className="text-amber-200">Click</strong> to select</span><span><strong className="text-amber-200">Drag</strong> to reposition</span><span><strong className="text-amber-200">Double-click</strong> text to edit</span></div>}
         <div className="flex gap-4">
           <div className="flex-1 min-w-0"><CanvasEditor canvas={canvas} onUpdate={commit} selectedId={selectedId} onSelectElement={setSelectedId} /></div>
           {showLayers && <aside className="w-60 h-fit rounded-2xl border border-white/10 bg-[#141820] p-4 text-slate-100 shadow-[0_16px_40px_rgba(0,0,0,0.16)]"><h2 className="mb-3 text-sm font-semibold text-white">Layers</h2><div className="flex flex-col gap-2">{canvas.elements.length === 0 ? <p className="text-xs text-slate-500">No elements yet.</p> : [...canvas.elements].reverse().map((element) => <div key={element.id} className={`flex items-center justify-between rounded border px-2 py-2 text-xs ${element.id === selectedId ? 'border-amber-300/50 bg-amber-300/10' : 'border-white/10 bg-white/[0.02]'}`}><button className="truncate text-left" onClick={() => setSelectedId(element.id)}>{element.type === 'text' ? element.text : element.type}</button><div className="flex gap-1"><button onClick={() => commit({ ...canvas, elements: moveElement(canvas.elements, element.id, 'front') })} aria-label="Bring layer to front">↑</button><button onClick={() => commit({ ...canvas, elements: moveElement(canvas.elements, element.id, 'back') })} aria-label="Send layer to back">↓</button></div></div>)}</div></aside>}
