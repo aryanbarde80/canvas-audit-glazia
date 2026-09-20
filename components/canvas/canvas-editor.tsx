@@ -100,15 +100,17 @@ export default function CanvasEditor({ canvas, onUpdate, selectedId, onSelectEle
   return (
     <div className="flex h-full flex-col gap-4" onKeyDown={handleKeyDown} tabIndex={0} role="application" aria-label="Design canvas editor">
       <ElementToolbar onAdd={handleAddElement} onDelete={handleDeleteSelected} canDelete={Boolean(selectedId)} />
-      <div className="flex min-h-0 flex-1 gap-4">
-        <div className="canvas-stage-shell relative flex-1 overflow-auto rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_20%_10%,rgba(252,211,77,0.12),transparent_28%),linear-gradient(135deg,#151922,#0f1218)] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.24)]">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 xl:flex-row">
+        <div className="canvas-stage-shell relative flex min-h-[520px] min-w-0 flex-1 flex-col overflow-auto rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_20%_10%,rgba(252,211,77,0.12),transparent_28%),linear-gradient(135deg,#151922,#0f1218)] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.24)]">
           <div className="pointer-events-none absolute inset-x-5 top-4 z-10 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.22em] text-white/40"><span>Artboard</span><span>{selectedId ? 'Element selected' : 'Click an element to select'}</span></div>
           <div className="absolute bottom-4 left-5 z-20 flex items-center gap-1 rounded-lg border border-white/10 bg-black/30 p-1 text-white/70 backdrop-blur-md" aria-label="Canvas zoom controls">
             <button type="button" onClick={zoomOut} className="size-7 rounded-md text-sm transition hover:bg-white/10 hover:text-white" aria-label="Zoom out">−</button>
             <button type="button" onClick={resetZoom} className="min-w-12 rounded-md px-2 py-1 text-[10px] font-semibold tracking-wide transition hover:bg-white/10 hover:text-white" aria-label="Reset zoom">{Math.round(zoom * 100)}%</button>
             <button type="button" onClick={zoomIn} className="size-7 rounded-md text-sm transition hover:bg-white/10 hover:text-white" aria-label="Zoom in">+</button>
           </div>
-          <div className="canvas-artboard relative mt-5 overflow-hidden rounded-xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.28)] ring-1 ring-white/20" style={{ width: CANVAS_WIDTH * zoom, height: CANVAS_HEIGHT * zoom }}>
+          <div className="flex min-h-full min-w-full flex-1 items-center justify-center px-2 pb-2 pt-10">
+            <div className="canvas-artboard relative overflow-hidden rounded-xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.28)] ring-1 ring-white/20" style={{ width: CANVAS_WIDTH * zoom, height: CANVAS_HEIGHT * zoom }}>
+
             <Stage ref={stageRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} scaleX={zoom} scaleY={zoom} onClick={handleStageClick} style={{ cursor: selectedId ? 'default' : 'pointer' }}>
               <Layer>
                 {canvas.elements.map((element) => {
@@ -122,6 +124,7 @@ export default function CanvasEditor({ canvas, onUpdate, selectedId, onSelectEle
                 {selectedId && <Transformer ref={transformerRef} onTransformEnd={() => handleTransformEnd(selectedId)} padding={8} anchorSize={8} borderStroke="#c9754d" />}
               </Layer>
             </Stage>
+            </div>
           </div>
         </div>
         <PropertiesPanel element={getElement(canvas.elements, selectedId)} onUpdate={(patch) => selectedId && handleUpdateElement(selectedId, patch)} />
