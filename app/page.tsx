@@ -1,6 +1,7 @@
 'use client'
+import Link from 'next/link'
 import { useEffect, useState, useCallback } from 'react'
-import { Undo2, Redo2, Layers, Download, Loader2, AlertCircle } from 'lucide-react'
+import { Undo2, Redo2, Layers, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import CanvasHeader from '@/components/canvas/canvas-header'
 import CanvasEditor from '@/components/canvas/canvas-editor'
@@ -104,7 +105,7 @@ export default function Page() {
           <div className="flex-1 min-w-0"><CanvasEditor canvas={canvas} onUpdate={commit} selectedId={selectedId} onSelectElement={setSelectedId} /></div>
           {showLayers && <aside className="w-60 h-fit rounded-2xl border border-white/10 bg-[#141820] p-4 text-slate-100 shadow-[0_16px_40px_rgba(0,0,0,0.16)]"><h2 className="mb-3 text-sm font-semibold text-white">Layers</h2><div className="flex flex-col gap-2">{canvas.elements.length === 0 ? <p className="text-xs text-slate-500">No elements yet.</p> : [...canvas.elements].reverse().map((element) => <div key={element.id} className={`flex items-center justify-between rounded border px-2 py-2 text-xs ${element.id === selectedId ? 'border-amber-300/50 bg-amber-300/10' : 'border-white/10 bg-white/[0.02]'}`}><button className="truncate text-left" onClick={() => setSelectedId(element.id)}>{element.type === 'text' ? element.text : element.type}</button><div className="flex gap-1"><button onClick={() => commit({ ...canvas, elements: moveElement(canvas.elements, element.id, 'front') })} aria-label="Bring layer to front">↑</button><button onClick={() => commit({ ...canvas, elements: moveElement(canvas.elements, element.id, 'back') })} aria-label="Send layer to back">↓</button></div></div>)}</div></aside>}
         </div>
-        <div className="mt-4 flex items-center justify-between text-[11px] tracking-wide text-slate-500"><span>{canvas.elements.length} {canvas.elements.length === 1 ? 'element' : 'elements'} · Express API + MongoDB persistence</span><span>Double-click text to edit · Delete removes selection</span></div>
+        <footer className="mt-4 flex flex-col gap-2 border-t border-white/8 pt-4 text-[11px] tracking-wide text-slate-500 sm:flex-row sm:items-center sm:justify-between"><span>Express API + MongoDB persistence</span><span className="flex items-center gap-3"><span>Double-click text to edit · Delete removes selection</span><Link href="/docs" className="font-semibold text-amber-200 transition hover:text-amber-100">Read the docs</Link></span></footer>
       </div>
       <LoadDialog isOpen={loadOpen} onClose={() => setLoadOpen(false)} onLoad={handleLoad} onDelete={handleDeleteById} />
     </main>
