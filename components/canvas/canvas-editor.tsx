@@ -110,6 +110,7 @@ export default function CanvasEditor({ canvas, onUpdate, selectedId, onSelectEle
           </div>
           <div className="flex min-h-full min-w-full flex-1 items-center justify-center px-2 pb-2 pt-10">
             <div className="canvas-artboard relative overflow-hidden rounded-xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.28)] ring-1 ring-white/20" style={{ width: CANVAS_WIDTH * zoom, height: CANVAS_HEIGHT * zoom }}>
+              {canvas.elements.length === 0 && <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"><div className="rounded-2xl border border-slate-200/80 bg-white/90 px-6 py-5 text-center shadow-xl backdrop-blur-sm"><p className="text-sm font-semibold text-slate-900">Your canvas is ready</p><p className="mt-1 text-xs text-slate-500">Choose a shape above to start composing</p></div></div>}
 
             <Stage ref={stageRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} scaleX={zoom} scaleY={zoom} onClick={handleStageClick} style={{ cursor: selectedId ? 'default' : 'pointer' }}>
               <Layer>
