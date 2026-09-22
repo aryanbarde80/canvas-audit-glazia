@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, CheckCircle2, Database, Keyboard, MousePointer2, Palette, RefreshCw, Server, Shapes, Sparkles } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Database, Keyboard, MousePointer2, Palette, RefreshCw, Server, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import BrandMark from '@/components/brand/brand-mark'
 
 const sections = [
   {
@@ -41,7 +42,7 @@ export default function DocsPage() {
       <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8 lg:py-12">
         <header className="flex items-center justify-between border-b border-white/10 pb-8">
           <Link href="/" className="flex items-center gap-3 text-sm font-semibold tracking-tight text-white">
-            <span className="grid size-9 place-items-center rounded-xl bg-[#e29a63] text-[#17100c] shadow-[0_0_24px_rgba(226,154,99,.2)]"><Shapes className="size-4" /></span>
+            <span className="grid size-9 place-items-center rounded-xl bg-[#e29a63] text-[#17100c] shadow-[0_0_24px_rgba(226,154,99,.2)]"><BrandMark className="size-[18px]" /></span>
             Design Canvas
           </Link>
           <Link href="/" className="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.03] px-4 text-sm font-medium text-white/70 transition hover:border-[#e29a63]/40 hover:bg-[#e29a63]/[.08] hover:text-[#f4f0e8]"><ArrowLeft className="size-4" /> Back to studio</Link>

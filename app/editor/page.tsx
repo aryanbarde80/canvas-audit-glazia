@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowLeft, CheckCircle2, CircleHelp, Command, Layers3, Share2, Sparkles, X } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, CircleHelp, Command, Layers3, Share2, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import BrandMark from '@/components/brand/brand-mark'
 import CanvasEditor from '@/components/canvas/canvas-editor'
 import { CanvasDocument, defaultCanvas } from '@/lib/canvas-types'
 
@@ -53,7 +54,7 @@ export default function EditorPage() {
               <Link href="/" className="inline-flex shrink-0 items-center gap-2 rounded-lg px-2 py-2 text-xs font-medium text-white/45 transition hover:bg-white/[.06] hover:text-white"><ArrowLeft className="size-3.5" /> Home</Link>
               <span className="hidden h-5 w-px bg-white/10 sm:block" />
               <div className="flex min-w-0 items-center gap-3">
-                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#e29a63] text-[#17100c] shadow-[0_0_28px_rgba(226,154,99,.18)]"><Sparkles className="size-4" /></span>
+                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#e29a63] text-[#17100c] shadow-[0_0_28px_rgba(226,154,99,.18)]"><BrandMark className="size-[18px]" /></span>
                 <div className="min-w-0"><p className="truncate text-sm font-semibold tracking-tight text-[#f4f0e8]">Canvas workspace</p><p className="mt-0.5 truncate text-[10px] uppercase tracking-[.2em] text-white/35">{canvas.name || 'Untitled board'}</p></div>
               </div>
             </div>

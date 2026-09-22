@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight, Check, Command, Layers3, MousePointer2, Sparkles, WandSparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import BrandMark from '@/components/brand/brand-mark'
 
 const features = [
   { icon: MousePointer2, number: '01', title: 'Compose in context', text: 'Place the right primitive, move it with intention, and see the composition come together in real time.' },
@@ -35,7 +36,7 @@ export default function Page() {
       <div className="border-b border-white/[0.08] bg-white/[0.025] px-5 py-2.5 text-center text-[10px] font-medium uppercase tracking-[0.22em] text-white/45">A quieter way to shape the next idea <span className="mx-2 text-[#e29a63]">/</span> Public preview
       </div>
       <nav className="mx-auto flex max-w-7xl items-center justify-between border-b border-white/10 px-5 py-5 lg:px-10">
-        <Link href="/" className="flex items-center gap-3 text-sm font-semibold tracking-tight"><span className="grid size-9 place-items-center rounded-xl bg-[#e29a63] text-[#17110d] shadow-[0_0_26px_rgba(226,154,99,.2)]"><Sparkles className="size-4" /></span><span>canvas / studio</span></Link>
+        <Link href="/" className="flex items-center gap-3 text-sm font-semibold tracking-tight"><span className="grid size-9 place-items-center rounded-xl bg-[#e29a63] text-[#17110d] shadow-[0_0_26px_rgba(226,154,99,.2)]"><BrandMark className="size-[18px]" /></span><span>canvas / studio</span></Link>
         <div className="hidden items-center gap-8 text-[10px] font-medium uppercase tracking-[0.2em] text-white/45 md:flex"><a href="#why" className="transition hover:text-white">Why canvas</a><a href="#toolkit" className="transition hover:text-white">Toolkit</a><Link href="/docs" className="transition hover:text-white">Docs</Link></div>
         <Button render={<Link href="/editor" />} size="sm" className="h-10 rounded-xl bg-[#f4f0e8] px-5 text-[11px] font-semibold text-[#15181b] shadow-lg hover:bg-[#e29a63] focus-visible:ring-2 focus-visible:ring-[#e29a63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0d10]">Open canvas <ArrowUpRight data-icon="inline-end" /></Button>
       </nav>
