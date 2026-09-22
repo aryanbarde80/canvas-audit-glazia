@@ -5,24 +5,24 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.08 0.012 90);
-  --foreground: oklch(0.95 0.02 90);
-  --card: oklch(0.12 0.012 90);
-  --card-foreground: oklch(0.95 0.02 90);
-  --popover: oklch(0.12 0.012 90);
-  --popover-foreground: oklch(0.95 0.02 90);
-  --primary: oklch(0.77 0.14 55);
-  --primary-foreground: oklch(0.16 0.025 55);
-  --secondary: oklch(0.18 0.015 90);
-  --secondary-foreground: oklch(0.9 0.02 90);
-  --muted: oklch(0.18 0.015 90);
-  --muted-foreground: oklch(0.62 0.025 90);
-  --accent: oklch(0.77 0.14 55);
-  --accent-foreground: oklch(0.16 0.025 55);
+  --background: #0a0d10;
+  --foreground: #f4f0e8;
+  --card: #15191d;
+  --card-foreground: #f4f0e8;
+  --popover: #15191d;
+  --popover-foreground: #f4f0e8;
+  --primary: #e29a63;
+  --primary-foreground: #17100c;
+  --secondary: #1a2028;
+  --secondary-foreground: #f4f0e8;
+  --muted: #1a2028;
+  --muted-foreground: rgba(244,240,232,.55);
+  --accent: #e29a63;
+  --accent-foreground: #17100c;
   --destructive: oklch(0.62 0.2 28);
-  --border: oklch(0.25 0.015 90);
-  --input: oklch(0.25 0.015 90);
-  --ring: oklch(0.77 0.14 55);
+  --border: rgba(255,255,255,.12);
+  --input: rgba(255,255,255,.12);
+  --ring: #e29a63;
   --radius: 0.6rem;
   --canvas-blue: #8ea8c3;
   --canvas-coral: #e7a77b;
@@ -59,9 +59,9 @@
   button, input, textarea { font: inherit; }
 }
 
-html, body { min-height: 100%; }
+html, body { min-height: 100%; overflow-x: clip; }
 
-.canvas-stage-shell { scrollbar-color: rgba(255,255,255,.24) transparent; scrollbar-width: thin; }
+.canvas-stage-shell { scrollbar-color: rgba(226,154,99,.4) transparent; scrollbar-width: thin; }
 .canvas-stage-shell::-webkit-scrollbar { width: 8px; height: 8px; }
-.canvas-stage-shell::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 999px; }
+.canvas-stage-shell::-webkit-scrollbar-thumb { background: rgba(226,154,99,.4); border-radius: 999px; }
 .canvas-artboard { background-image: linear-gradient(45deg, rgba(15,23,42,.025) 25%, transparent 25%, transparent 75%, rgba(15,23,42,.025) 75%), linear-gradient(45deg, rgba(15,23,42,.025) 25%, transparent 25%, transparent 75%, rgba(15,23,42,.025) 75%); background-position: 0 0, 10px 10px; background-size: 20px 20px; }

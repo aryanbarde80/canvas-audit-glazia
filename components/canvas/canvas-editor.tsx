@@ -101,9 +101,9 @@ export default function CanvasEditor({ canvas, onUpdate, selectedId, onSelectEle
     <div className="flex h-full flex-col gap-4" onKeyDown={handleKeyDown} tabIndex={0} role="application" aria-label="Design canvas editor">
       <ElementToolbar onAdd={handleAddElement} onDelete={handleDeleteSelected} canDelete={Boolean(selectedId)} />
       <div className="flex min-h-0 flex-1 flex-col gap-4 xl:flex-row">
-        <div className="canvas-stage-shell relative flex min-h-[520px] min-w-0 flex-1 flex-col overflow-auto rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_20%_10%,rgba(252,211,77,0.12),transparent_28%),linear-gradient(135deg,#151922,#0f1218)] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.24)]">
+        <div className="canvas-stage-shell relative flex min-h-[520px] min-w-0 flex-1 flex-col overflow-auto rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_20%_10%,rgba(226,154,99,0.11),transparent_28%),linear-gradient(135deg,#15191d,#0a0d10)] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.24)]">
           <div className="pointer-events-none absolute inset-x-5 top-4 z-10 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.22em] text-white/40"><span>Artboard</span><span>{selectedId ? 'Element selected' : 'Click an element to select'}</span></div>
-          <div className="absolute bottom-4 left-5 z-20 flex items-center gap-1 rounded-lg border border-white/10 bg-black/30 p-1 text-white/70 backdrop-blur-md" aria-label="Canvas zoom controls">
+          <div className="absolute bottom-4 left-5 z-20 flex items-center gap-1 rounded-lg border border-white/10 bg-[#15191d]/80 p-1 text-white/70 backdrop-blur-md" aria-label="Canvas zoom controls">
             <button type="button" onClick={zoomOut} className="size-7 rounded-md text-sm transition hover:bg-white/10 hover:text-white" aria-label="Zoom out">−</button>
             <button type="button" onClick={resetZoom} className="min-w-12 rounded-md px-2 py-1 text-[10px] font-semibold tracking-wide transition hover:bg-white/10 hover:text-white" aria-label="Reset zoom">{Math.round(zoom * 100)}%</button>
             <button type="button" onClick={zoomIn} className="size-7 rounded-md text-sm transition hover:bg-white/10 hover:text-white" aria-label="Zoom in">+</button>
@@ -116,13 +116,13 @@ export default function CanvasEditor({ canvas, onUpdate, selectedId, onSelectEle
               <Layer>
                 {canvas.elements.map((element) => {
                   const isSelected = element.id === selectedId
-                  const commonProps = { id: element.id, x: element.x, y: element.y, rotation: element.rotation, fill: element.fill, draggable: true, onMouseEnter: () => setHoveredId(element.id), onMouseLeave: () => setHoveredId(null), onDragEnd: (e: any) => handleDragEnd(element.id, e), onClick: () => handleSelectElement(element.id), stroke: isSelected ? '#c9754d' : hoveredId === element.id ? '#f3c7a5' : undefined, strokeWidth: isSelected ? 3 : hoveredId === element.id ? 2 : 0, shadowColor: isSelected ? '#c9754d' : undefined, shadowBlur: isSelected ? 16 : 0, shadowOpacity: isSelected ? 0.3 : 0 }
+                  const commonProps = { id: element.id, x: element.x, y: element.y, rotation: element.rotation, fill: element.fill, draggable: true, onMouseEnter: () => setHoveredId(element.id), onMouseLeave: () => setHoveredId(null), onDragEnd: (e: any) => handleDragEnd(element.id, e), onClick: () => handleSelectElement(element.id), stroke: isSelected ? '#e29a63' : hoveredId === element.id ? '#f2b27b' : undefined, strokeWidth: isSelected ? 3 : hoveredId === element.id ? 2 : 0, shadowColor: isSelected ? '#e29a63' : undefined, shadowBlur: isSelected ? 16 : 0, shadowOpacity: isSelected ? 0.3 : 0 }
                   if (element.type === 'rectangle') return <Rect key={element.id} {...commonProps} width={element.width} height={element.height} />
                   if (element.type === 'circle') return <Circle key={element.id} {...commonProps} radius={(element.width ?? 60) / 2} />
                   if (element.type === 'text') return <Text key={element.id} {...commonProps} text={element.text} fontSize={element.fontSize ?? 24} width={element.width} height={element.height} onDblClick={() => handleTextDblClick(element.id)} />
                   return null
                 })}
-                {selectedId && <Transformer ref={transformerRef} onTransformEnd={() => handleTransformEnd(selectedId)} padding={8} anchorSize={8} borderStroke="#c9754d" />}
+                {selectedId && <Transformer ref={transformerRef} onTransformEnd={() => handleTransformEnd(selectedId)} padding={8} anchorSize={8} borderStroke="#e29a63" />}
               </Layer>
             </Stage>
             </div>
